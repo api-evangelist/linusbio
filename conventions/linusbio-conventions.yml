@@ -1,0 +1,142 @@
+generated: '2026-08-25'
+method: probed
+source: >-
+  https://traced.life/agents.md, https://traced.life/robots.txt,
+  https://traced.life/api/ucp/mcp (tools/list), https://traced.life/policies/refund-policy
+scope: >-
+  These conventions describe the ONLY machine-callable surface LinusBio serves: the UCP/MCP
+  commerce endpoint on the traced.life storefront. LinusBio publishes no REST API and therefore
+  no REST conventions.
+
+auth_style:
+  public_surface: none (anonymous JSON-RPC)
+  customer_surface: OAuth 2.0 bearer token, header method only
+  reference: authentication/linusbio-authentication.yml
+
+protocol:
+  style: JSON-RPC 2.0 over HTTP (MCP)
+  endpoint: https://traced.life/api/ucp/mcp
+  content_type: application/json
+  accept: application/json, text/event-stream
+  discovery: https://traced.life/.well-known/ucp
+  versioning:
+    scheme: date-based protocol version
+    current: '2026-04-08'
+    also_supported:
+    - '2026-01-23'
+    negotiation: >-
+      Version-pinned profiles are advertised in /.well-known/ucp under supported_versions,
+      each with its own URL.
+
+idempotency:
+  supported: true
+  grade: documented
+  mechanism: request parameter
+  parameter: meta.idempotency-key
+  type: string
+  applies_to:
+  - complete_checkout
+  description: >-
+    The complete_checkout tool's inputSchema declares an optional meta.idempotency-key string,
+    described in the schema as "An idempotency key for completing the checkout." It is the only
+    idempotency control on the surface — cart and checkout mutation tools do not declare one.
+  retention_window: not published
+  evidence:
+    file: mcp/linusbio-traced-mcp-tools-list.json
+    json_pointer: /result/tools/3/inputSchema/properties/meta/properties/idempotency-key
+    http_status: 200
+
+pagination:
+  style: not published
+  note: >-
+    search_catalog and lookup_catalog return product collections but no page/cursor parameter
+    or response envelope field is documented in agents.md or in the tool input schemas.
+
+field_expansion: na
+metadata:
+  supported: true
+  parameter: meta
+  note: >-
+    Every tool requires a meta object carrying meta['ucp-agent'].profile, a URI identifying the
+    calling agent's UCP profile. It is an agent-identity requirement, not free-form metadata.
+
+request_id_tracing: not published
+
+error_envelope:
+  style: JSON-RPC 2.0 error object
+  rfc9457: false
+  note: >-
+    No published error catalog. complete_checkout's own description states it may return
+    "any errors encountered" inline in the checkout result rather than as a transport error.
+
+rate_limit_signaling:
+  documented: true
+  quantified: false
+  status_code: 429
+  headers: not published
+  source: https://traced.life/robots.txt
+  note: >-
+    robots.txt and agents.md both state "The MCP endpoint is rate-limited per IP. Back off on
+    429 responses." No numeric limit, window, or RateLimit-* header is published.
+  reference: rate-limits/linusbio-rate-limits.yml
+
+money_encoding:
+  scheme: ISO 4217 minor units
+  shape: '{"amount": <integer>, "currency": "<ISO 4217 code>"}'
+  note: >-
+    Stated verbatim in every tool description: amount 2500 with currency USD is $25.00.
+    Agents must convert to major units before quoting a price to a buyer.
+
+dry_run_mode:
+  supported: false
+  note: >-
+    No test mode, sandbox store, or simulation flag is published for the UCP surface.
+
+human_approval:
+  required: true
+  applies_to:
+  - complete_checkout
+  source: https://traced.life/agents.md
+  statement: >-
+    "Checkout requires human approval. Agents must not complete payment without explicit buyer
+    consent." robots.txt repeats the rule and forbids scripted end-to-end payment flows.
+
+reversibility:
+  grade: verified
+  applies_to: the Traced storefront write surface (cart, checkout, order)
+  surfaces:
+  - write_operation: create_cart / update_cart
+    reversal_operation: cancel_cart
+    operation_id: cancel_cart
+    window: >-
+      Any time before checkout completion. No stated expiry; an abandoned cart is not an order.
+    source: https://traced.life/api/ucp/mcp (tools/list)
+  - write_operation: create_checkout / update_checkout
+    reversal_operation: cancel_checkout
+    operation_id: cancel_checkout
+    window: >-
+      Any time before complete_checkout succeeds. Once complete_checkout returns an order ID
+      the checkout is no longer cancellable and the refund path below applies instead.
+    source: https://traced.life/api/ucp/mcp (tools/list)
+  - write_operation: complete_checkout (payment authorized, order created)
+    reversal_operation: refund via customer support (no MCP tool exists)
+    operation_id: null
+    window: >-
+      48 hours. The published refund policy states a refund is available where the customer
+      contacts support "within 48 hours of when you authorize payment for the Test". Refunds
+      are also available if Traced terminates or discontinues the test prior to completion,
+      or if the provider cancels or fails to submit the order. No refund path is stated after
+      the 48-hour window.
+    source: https://traced.life/policies/refund-policy
+  note: >-
+    Graded `verified` because both a reversal path and a stated window exist. The post-payment
+    reversal is NOT agent-callable — there is no refund tool on the UCP surface — so an agent
+    can undo a cart or an open checkout itself, but a completed order must be reversed by a
+    human contacting support inside 48 hours.
+
+cross_links:
+  authentication: authentication/linusbio-authentication.yml
+  scopes: scopes/linusbio-scopes.yml
+  lifecycle: lifecycle/linusbio-lifecycle.yml
+  rate_limits: rate-limits/linusbio-rate-limits.yml
+  mcp: mcp/linusbio-traced-mcp.yml

@@ -1,0 +1,43 @@
+generated: '2026-08-25'
+method: searched
+source: https://traced.life/products/test
+summary: >-
+  LinusBio sells diagnostic and wellness TESTS, not API plans. There is no developer program,
+  no API pricing page, no free tier and no usage-based plan of any kind. The prices recorded
+  below are the retail prices of the physical tests, captured so the commercial surface is not
+  blank — they are product prices, not API tiers.
+plan_count: 0
+api_plans_published: false
+product_pricing:
+- name: Traced Environmental Exposure Test
+  price: 299.00
+  currency: USD
+  billing_period: one-time
+  what_it_is: >-
+    At-home consumer wellness hair test measuring 15 environmental elements across a 30-day
+    exposure timeline.
+  purchase_url: https://traced.life/products/test
+  agent_purchasable: true
+  agent_purchase_note: >-
+    Purchasable through the UCP/MCP endpoint at https://traced.life/api/ucp/mcp, but payment
+    completion requires contemporaneous human approval per the store's published agent rules.
+  source: https://traced.life/products/test
+  price_confirmed: '2026-08-25'
+- name: ClearStrand-ASD
+  price: null
+  currency: USD
+  billing_period: one-time
+  what_it_is: >-
+    FDA Breakthrough Device-designated laboratory developed test (LDT) run in a CLIA-certified
+    lab to help rule out autism spectrum disorder in children aged one month to ten years.
+    Ordered through a telehealth provider, not sold self-service.
+  purchase_url: https://www.clearstrandasd.com/
+  source: https://www.clearstrandasd.com/
+  note: >-
+    No public price is published. The test is ordered via a telehealth provider through the
+    LinusBio patient portal; pricing is not on the public site. Recorded as null, not guessed.
+notes:
+- >-
+  There is no LinusBio API pricing page. Probed https://www.linusbio.com/ sitemap (15 sections:
+  about, careers, conditions, contact, homepageCorporate, medicalInfoRequest, news, ourScience,
+  partnerships, pipeline, platform, publications) — none is a pricing or developer section.

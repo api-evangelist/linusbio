@@ -1,0 +1,21 @@
+generated: '2026-08-25'
+method: generated
+source: >-
+  Grounded in mcp/linusbio-traced-mcp-tools-list.json (probed 2026-08-25) and
+  https://traced.life/agents.md. LinusBio publishes no skills or AGENTS.md of its own;
+  https://traced.life/agents.md is the provider-published agent instruction file and is
+  captured verbatim as llms/linusbio-llms.txt.
+skill_count: 1
+skills:
+- file: skills/linusbio-order-traced-test.md
+  name: order-traced-exposure-test
+  api: linusbio-traced-ucp-commerce
+  summary: >-
+    Purchase the Traced environmental exposure test through the traced.life UCP/MCP endpoint,
+    honoring the store's buyer-approval gate and the 48-hour refund window.
+  operations_verified: true
+  operations_source: mcp/linusbio-traced-mcp-tools-list.json
+not_generated:
+  reason: >-
+    No other skill can be grounded. LinusBio publishes no OpenAPI, no REST API and no clinical
+    or laboratory data surface, so there is no second flow to package.

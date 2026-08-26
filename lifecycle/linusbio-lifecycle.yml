@@ -1,0 +1,52 @@
+generated: '2026-08-25'
+method: probed
+source: >-
+  https://traced.life/.well-known/ucp, https://traced.life/agents.md,
+  https://www.linusbio.com/sitemap.xml
+summary: >-
+  LinusBio publishes no API versioning policy, no deprecation policy, no SLA and no status page.
+  The only lifecycle signal that exists is protocol version negotiation on the Traced UCP
+  surface, which is inherited from the Shopify/UCP platform rather than authored by LinusBio.
+
+versioning:
+  applies_to: https://traced.life/api/ucp/mcp
+  scheme: date-based protocol version (UCP)
+  current: '2026-04-08'
+  supported:
+  - version: '2026-04-08'
+    label: latest stable
+    profile: https://traced-life.myshopify.com/.well-known/ucp/2026-04-08
+  - version: '2026-01-23'
+    label: previous
+    profile: https://traced-life.myshopify.com/.well-known/ucp/2026-01-23
+  source: https://traced.life/.well-known/ucp
+
+deprecation_policy:
+  published: false
+  sunset_header: not observed
+  deprecation_header: not observed
+  note: >-
+    Two UCP versions are served concurrently, which implies an overlap window, but no sunset
+    date, no RFC 8594 headers and no written deprecation policy are published.
+
+status_page:
+  published: false
+  probed:
+  - url: https://status.linusbio.com/
+    status: 200
+    verdict: >-
+      NOT a status page. Wildcard DNS — returns the byte-identical 417,500-byte linusbio.com
+      marketing homepage, the same body an invented subdomain returns. No StatusPage pointer
+      is emitted.
+
+sla:
+  published: false
+
+changelog:
+  api_changelog: false
+  company_news: https://www.linusbio.com/news
+  note: >-
+    LinusBio maintains a dated corporate news section (sitemap lastmod 2026-07-07) but no API
+    or product changelog. The news feed is wired as the Blog pointer, not as a ChangeLog.
+
+deprecated_operations: []

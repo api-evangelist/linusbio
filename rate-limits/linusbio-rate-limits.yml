@@ -1,0 +1,26 @@
+generated: '2026-08-25'
+method: searched
+source: https://traced.life/robots.txt
+docs: https://traced.life/agents.md
+summary: >-
+  LinusBio publishes no rate limits for any corporate surface — there is no developer program.
+  The Traced UCP/MCP endpoint has a stated but unquantified per-IP limit and a documented 429
+  back-off contract. No numeric limit, window, burst, or RateLimit-* response header is
+  published anywhere, so an agent can only learn the ceiling by hitting it.
+limit_count: 0
+limits:
+- id: traced-ucp-mcp-per-ip
+  surface: https://traced.life/api/ucp/mcp
+  scope: per-ip
+  window: not published
+  limit: null
+  burst: null
+  status_code_on_exhaustion: 429
+  retry_after_header: not published
+  rate_limit_headers: not published
+  documented_statement: >-
+    "Respect rate limits. The MCP endpoint is rate-limited per IP. Back off on 429 responses."
+  source: https://traced.life/robots.txt
+  note: >-
+    Recorded with limit: null rather than a guess. The statement is real and the 429 contract is
+    real; the number is genuinely absent from the provider's published material.

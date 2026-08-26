@@ -1,0 +1,70 @@
+generated: '2026-08-25'
+method: probed
+source: >-
+  https://traced.life/.well-known/oauth-authorization-server,
+  https://traced.life/.well-known/oauth-protected-resource,
+  https://traced.life/api/ucp/mcp (tools/list)
+summary: >-
+  LinusBio publishes no developer authentication documentation of any kind. The only auth
+  surface reachable is the Shopify Customer Accounts OAuth 2.0 / OIDC provider backing the
+  traced.life storefront, discovered from RFC 8414 and RFC 9728 metadata served on that host.
+  The public UCP/MCP commerce endpoint itself requires NO credentials — tools/list and catalog
+  reads answer anonymously — while the customer-scoped MCP surface sits behind that OAuth
+  provider.
+
+schemes:
+- id: none-public-mcp
+  type: none
+  applies_to: https://traced.life/api/ucp/mcp
+  description: >-
+    The UCP/MCP endpoint accepts unauthenticated JSON-RPC. Verified 2026-08-25: an anonymous
+    POST of tools/list returned HTTP 200 with 13 tools.
+  evidence:
+    url: https://traced.life/api/ucp/mcp
+    http_status: 200
+
+- id: shopify-customer-accounts-oauth2
+  type: oauth2
+  flows:
+  - authorization_code
+  - refresh_token
+  - 'urn:ietf:params:oauth:grant-type:jwt-bearer'
+  issuer: https://shopify.com/authentication/70566805578
+  authorization_endpoint: https://account.traced.life/authentication/oauth/authorize
+  token_endpoint: https://account.traced.life/authentication/oauth/token
+  end_session_endpoint: https://account.traced.life/authentication/logout
+  jwks_uri: https://account.traced.life/authentication/.well-known/jwks.json
+  token_endpoint_auth_methods:
+  - client_secret_basic
+  - client_secret_post
+  pkce:
+    supported: true
+    code_challenge_methods:
+    - S256
+  bearer_methods_supported:
+  - header
+  id_token_signing_alg_values:
+  - RS256
+  claims:
+  - iss
+  - sub
+  - aud
+  - exp
+  - iat
+  - nonce
+  - sid
+  - email
+  - email_verified
+  description: >-
+    Shopify Customer Accounts identity provider for the traced.life store. Platform-provided,
+    not LinusBio-authored, but served from a LinusBio-controlled domain.
+
+- id: shopify-customer-accounts-oidc
+  type: openIdConnect
+  openIdConnectUrl: https://traced.life/.well-known/openid-configuration
+  description: OIDC discovery for the same provider; response_types_supported is ["code"] only.
+
+not_found:
+  - LinusBio corporate API key or token documentation (no developer program exists)
+  - Any authentication reference on linusbio.com or clearstrandasd.com
+  - mTLS, HTTP basic, or API-key scheme on any probed host

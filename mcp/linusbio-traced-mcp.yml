@@ -1,0 +1,130 @@
+generated: '2026-08-25'
+method: probed
+source: https://traced.life/api/ucp/mcp
+name: Traced UCP Commerce MCP Server
+provider: LinusBio (Linus Biotechnology Inc.)
+summary: >-
+  LinusBio's Traced consumer storefront at traced.life exposes a live, anonymous MCP endpoint
+  implementing the Universal Commerce Protocol (UCP). A POST of tools/list returns HTTP 200 with
+  13 tools and full JSON Schema 2020-12 input schemas. This is the ONLY machine-callable surface
+  LinusBio publishes anywhere — the corporate site, ClearStrand-ASD site and every api./docs./
+  developer. subdomain return the marketing site via wildcard DNS.
+
+ownership:
+  note: >-
+    traced.life is named as the ordering site for the Traced test in LinusBio's own
+    2026-07-07 press release ("To order Traced and for more information, please visit
+    www.traced.life"), and the storefront footer links to LinusBio's LinkedIn company page.
+    The store entity of record in the Shopify copyright notice is "Traced Ltd.".
+  evidence:
+  - https://www.linusbio.com/news/linusbio-launches-traced-the-first-consumer-wellness-test-to-track-environmental-exposures-over-time
+  - https://traced.life/
+
+platform_note: >-
+  This server is provided by the Shopify platform, not authored by LinusBio. Every Shopify
+  storefront on UCP 2026-04-08 serves the same 13-tool surface. It is recorded here because it
+  is genuinely served from a LinusBio-controlled domain and is genuinely callable by an agent
+  today. It exposes commerce only — no exposomics, laboratory, specimen or test-result data.
+
+deployment:
+  mode: remote
+  endpoint: https://traced.life/api/ucp/mcp
+  auth: none
+  verified: probed
+
+x-evidence:
+  fetched: '2026-08-25'
+  url: https://traced.life/api/ucp/mcp
+  method: POST
+  request: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  http_status: 200
+  content_type: application/json
+  response_bytes: 52007
+  tools_returned: 13
+  saved: mcp/linusbio-traced-mcp-tools-list.json
+
+protocol:
+  transport: streamable-http
+  ucp_version: '2026-04-08'
+  ucp_supported_versions:
+  - '2026-04-08'
+  - '2026-01-23'
+  discovery: https://traced.life/.well-known/ucp
+  agent_instructions: https://traced.life/agents.md
+  input_schema_dialect: https://json-schema.org/draft/2020-12/schema
+
+tool_count: 13
+tools:
+- name: search_catalog
+  category: catalog
+  description: Search for products from the online store, hosted on Shopify.
+- name: lookup_catalog
+  category: catalog
+  description: Look up multiple products or variants by identifier.
+- name: get_product
+  category: catalog
+  description: Retrieve complete product detail by identifier. Returns a singular product.
+- name: get_cart
+  category: cart
+  description: Get the cart contents.
+- name: create_cart
+  category: cart
+  description: Creates a new cart.
+- name: update_cart
+  category: cart
+  description: Perform updates to a cart.
+- name: cancel_cart
+  category: cart
+  description: Cancels a cart.
+- name: get_checkout
+  category: checkout
+  description: >-
+    Returns details about the checkout, including line items, totals, and any applicable
+    discounts or taxes.
+- name: create_checkout
+  category: checkout
+  description: Creates a checkout.
+- name: update_checkout
+  category: checkout
+  description: Updates a checkout.
+- name: complete_checkout
+  category: checkout
+  description: >-
+    Completes a checkout and returns the checkout result, including order ID and Thank You
+    Page URL. Accepts an optional meta.idempotency-key.
+- name: cancel_checkout
+  category: checkout
+  description: Cancels a checkout.
+- name: get_order
+  category: order
+  description: Get the details of an order.
+
+runtime_rules:
+  human_approval_required: true
+  human_approval_note: >-
+    Both agents.md and robots.txt state that agents must not complete payment without an
+    explicit, contemporaneous buyer approval step.
+  idempotency:
+    supported: true
+    surface: complete_checkout
+    parameter: meta.idempotency-key
+    type: string
+    description: An idempotency key for completing the checkout.
+  money_encoding: >-
+    All prices are integers in the currency's ISO 4217 minor units paired with a currency
+    code; e.g. {"amount":2500,"currency":"USD"} is $25.00.
+  rate_limits: >-
+    robots.txt states the MCP endpoint is rate-limited per IP and that agents should back off
+    on 429. No numeric limit is published.
+
+authentication:
+  anonymous_tools_list: true
+  customer_account_oauth:
+    metadata: https://traced.life/.well-known/oauth-authorization-server
+    protected_resource: https://traced.life/.well-known/oauth-protected-resource
+    scopes:
+    - customer-account-mcp-api:full
+    note: >-
+      A separate, authenticated Shopify Customer Account MCP surface exists behind OAuth
+      (scope customer-account-mcp-api:full). It was NOT probed — it requires customer
+      credentials — so no tool list is recorded for it.
