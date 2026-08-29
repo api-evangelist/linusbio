@@ -14,6 +14,17 @@ description: >-
   REST API; its only machine-callable surface is the Shopify-hosted Universal Commerce Protocol
   (UCP) MCP endpoint on the traced.life storefront, through which an agent can search the
   catalog, build a cart and open a checkout for the Traced test under a buyer-approval rule.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://www.linusbio.com/assets/site/apple-touch-icon.png
 url: https://raw.githubusercontent.com/api-evangelist/linusbio/refs/heads/main/apis.yml
 x-type: company
