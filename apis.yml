@@ -1,19 +1,17 @@
 aid: linusbio
 name: LinusBio
-description: >-
-  LinusBio (Linus Biotechnology Inc.) is a New York-based precision-medicine company spun out of
-  the Mount Sinai Institute for Exposomic Research that commercializes "temporal exposomics
-  sequencing" — a robotics, laser-ablation and mass-spectrometry platform that reads a single
-  strand of hair like growth rings to reconstruct hundreds of time-resolved measurements of a
-  person's chemical and biological exposures, then runs them through an AI pipeline to produce
-  biomarkers. Its clinical product ClearStrand-ASD (formerly StrandDx-ASD) is an FDA
-  Breakthrough Device-designated laboratory developed test run in a CLIA-certified lab to help
-  rule out autism spectrum disorder in children from one month to ten years of age, and its
-  consumer product Traced is a $299 at-home environmental exposure test measuring 15 elements
-  across a 30-day timeline. LinusBio publishes no developer program, no OpenAPI and no public
-  REST API; its only machine-callable surface is the Shopify-hosted Universal Commerce Protocol
-  (UCP) MCP endpoint on the traced.life storefront, through which an agent can search the
-  catalog, build a cart and open a checkout for the Traced test under a buyer-approval rule.
+description: LinusBio (Linus Biotechnology Inc.) is a New York-based precision-medicine company spun out
+  of the Mount Sinai Institute for Exposomic Research that commercializes "temporal exposomics sequencing"
+  — a robotics, laser-ablation and mass-spectrometry platform that reads a single strand of hair like
+  growth rings to reconstruct hundreds of time-resolved measurements of a person's chemical and biological
+  exposures, then runs them through an AI pipeline to produce biomarkers. Its clinical product ClearStrand-ASD
+  (formerly StrandDx-ASD) is an FDA Breakthrough Device-designated laboratory developed test run in a
+  CLIA-certified lab to help rule out autism spectrum disorder in children from one month to ten years
+  of age, and its consumer product Traced is a $299 at-home environmental exposure test measuring 15 elements
+  across a 30-day timeline. LinusBio publishes no developer program, no OpenAPI and no public REST API;
+  its only machine-callable surface is the Shopify-hosted Universal Commerce Protocol (UCP) MCP endpoint
+  on the traced.life storefront, through which an agent can search the catalog, build a cart and open
+  a checkout for the Traced test under a buyer-approval rule.
 deliveryModel:
   model: saas
   open_source: false
@@ -59,17 +57,15 @@ tags:
 - Commerce
 - Agents
 apis:
-- aid: linusbio-traced-ucp-commerce
+- aid: linusbio:linusbio-traced-ucp-commerce
   name: Traced UCP Commerce (MCP)
-  description: >-
-    The agent-callable commerce surface for LinusBio's Traced environmental exposure test,
-    served from the traced.life storefront. It implements the Universal Commerce Protocol
-    (UCP) 2026-04-08 over MCP: an anonymous tools/list returns 13 tools with JSON Schema
-    2020-12 input schemas covering catalog search and lookup, cart lifecycle, checkout
-    lifecycle and order retrieval. Payment completion requires contemporaneous human
-    approval. This surface is provided by the Shopify platform on a LinusBio-controlled
-    domain; it is not a LinusBio-authored API and it does not expose any exposomics,
-    laboratory or test-result data.
+  description: 'The agent-callable commerce surface for LinusBio''s Traced environmental exposure test,
+    served from the traced.life storefront. It implements the Universal Commerce Protocol (UCP) 2026-04-08
+    over MCP: an anonymous tools/list returns 13 tools with JSON Schema 2020-12 input schemas covering
+    catalog search and lookup, cart lifecycle, checkout lifecycle and order retrieval. Payment completion
+    requires contemporaneous human approval. This surface is provided by the Shopify platform on a LinusBio-controlled
+    domain; it is not a LinusBio-authored API and it does not expose any exposomics, laboratory or test-result
+    data.'
   humanURL: https://traced.life/agents.md
   baseURL: https://traced.life/api/ucp/mcp
   tags:
