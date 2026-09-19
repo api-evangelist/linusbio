@@ -71,6 +71,11 @@ apis:
   tags:
   - Commerce
   - MCP
+  - Universal Commerce Protocol
+  - Agents
+  tags_raw:
+  - Commerce
+  - MCP
   - UCP
   - Agents
   properties:
