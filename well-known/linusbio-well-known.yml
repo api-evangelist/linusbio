@@ -1,13 +1,10 @@
 generated: '2026-08-25'
 method: probed
 source: direct HTTPS probe of every LinusBio-controlled host, 2026-08-25
-note: >-
-  LinusBio's corporate DNS uses a wildcard: api., docs., developer., app., status. and trust.
-  linusbio.com all resolve to the apex and return the byte-identical 417,500-byte marketing
-  homepage, as does an invented subdomain (zzznonsense.linusbio.com). No /.well-known/ document
-  is served on any linusbio.com or clearstrandasd.com host. Every real hit is on traced.life,
-  the Shopify-hosted Traced storefront.
-
+note: 'LinusBio''s corporate DNS uses a wildcard: api., docs., developer., app., status. and trust. linusbio.com
+  all resolve to the apex and return the byte-identical 417,500-byte marketing homepage, as does an invented
+  subdomain (zzznonsense.linusbio.com). No /.well-known/ document is served on any linusbio.com or clearstrandasd.com
+  host. Every real hit is on traced.life, the Shopify-hosted Traced storefront.'
 hosts:
 - host: www.linusbio.com
   documents:
@@ -53,27 +50,24 @@ hosts:
   documents:
   - path: /.well-known/ucp
     status: 200
-    file: well-known/linusbio-traced-ucp.json
-    note: >-
-      Universal Commerce Protocol merchant profile, version 2026-04-08. Declares the MCP
-      transport endpoint, the shopping capability set (cart, checkout, fulfillment, discount,
-      order, catalog search/lookup) and the payment handlers.
+    file: linusbio-traced-ucp.json
+    note: Universal Commerce Protocol merchant profile, version 2026-04-08. Declares the MCP transport
+      endpoint, the shopping capability set (cart, checkout, fulfillment, discount, order, catalog search/lookup)
+      and the payment handlers.
   - path: /.well-known/openid-configuration
     status: 200
-    file: well-known/linusbio-traced-openid-configuration.json
-    note: >-
-      Shopify Customer Accounts OIDC discovery document, issuer
-      https://shopify.com/authentication/70566805578, endpoints on account.traced.life.
+    file: linusbio-traced-openid-configuration.json
+    note: Shopify Customer Accounts OIDC discovery document, issuer https://shopify.com/authentication/70566805578,
+      endpoints on account.traced.life.
   - path: /.well-known/oauth-authorization-server
     status: 200
-    file: well-known/linusbio-traced-oauth-authorization-server.json
+    file: linusbio-traced-oauth-authorization-server.json
     note: RFC 8414 authorization server metadata; identical body to the OIDC document.
   - path: /.well-known/oauth-protected-resource
     status: 200
-    file: well-known/linusbio-traced-oauth-protected-resource.json
-    note: >-
-      RFC 9728 protected resource metadata naming https://traced.life as the resource and
-      account.traced.life plus shopify.com as its authorization servers.
+    file: linusbio-traced-oauth-protected-resource.json
+    note: RFC 9728 protected resource metadata naming https://traced.life as the resource and account.traced.life
+      plus shopify.com as its authorization servers.
   - path: /.well-known/security.txt
     status: 404
     file: null
@@ -89,7 +83,6 @@ hosts:
   - path: /.well-known/agent.json
     status: 404
     file: null
-
 summary:
   hosts_probed: 3
   documents_served: 4
