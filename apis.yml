@@ -81,6 +81,9 @@ apis:
   properties:
   - type: MCPServer
     url: mcp/linusbio-traced-mcp.yml
+  x-surface: platform-generated
+  x-platform: shopify
+  x-platform-surface: ucp
 common:
 - type: Website
   url: https://www.linusbio.com/
