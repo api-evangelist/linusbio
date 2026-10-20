@@ -3,35 +3,28 @@ method: probed
 source: https://traced.life/api/ucp/mcp
 name: Traced UCP Commerce MCP Server
 provider: LinusBio (Linus Biotechnology Inc.)
-summary: >-
-  LinusBio's Traced consumer storefront at traced.life exposes a live, anonymous MCP endpoint
-  implementing the Universal Commerce Protocol (UCP). A POST of tools/list returns HTTP 200 with
-  13 tools and full JSON Schema 2020-12 input schemas. This is the ONLY machine-callable surface
-  LinusBio publishes anywhere — the corporate site, ClearStrand-ASD site and every api./docs./
-  developer. subdomain return the marketing site via wildcard DNS.
-
+summary: LinusBio's Traced consumer storefront at traced.life exposes a live, anonymous MCP endpoint implementing
+  the Universal Commerce Protocol (UCP). A POST of tools/list returns HTTP 200 with 13 tools and full
+  JSON Schema 2020-12 input schemas. This is the ONLY machine-callable surface LinusBio publishes anywhere
+  — the corporate site, ClearStrand-ASD site and every api./docs./ developer. subdomain return the marketing
+  site via wildcard DNS.
 ownership:
-  note: >-
-    traced.life is named as the ordering site for the Traced test in LinusBio's own
-    2026-07-07 press release ("To order Traced and for more information, please visit
-    www.traced.life"), and the storefront footer links to LinusBio's LinkedIn company page.
-    The store entity of record in the Shopify copyright notice is "Traced Ltd.".
+  note: traced.life is named as the ordering site for the Traced test in LinusBio's own 2026-07-07 press
+    release ("To order Traced and for more information, please visit www.traced.life"), and the storefront
+    footer links to LinusBio's LinkedIn company page. The store entity of record in the Shopify copyright
+    notice is "Traced Ltd.".
   evidence:
   - https://www.linusbio.com/news/linusbio-launches-traced-the-first-consumer-wellness-test-to-track-environmental-exposures-over-time
   - https://traced.life/
-
-platform_note: >-
-  This server is provided by the Shopify platform, not authored by LinusBio. Every Shopify
-  storefront on UCP 2026-04-08 serves the same 13-tool surface. It is recorded here because it
-  is genuinely served from a LinusBio-controlled domain and is genuinely callable by an agent
-  today. It exposes commerce only — no exposomics, laboratory, specimen or test-result data.
-
+platform_note: This server is provided by the Shopify platform, not authored by LinusBio. Every Shopify
+  storefront on UCP 2026-04-08 serves the same 13-tool surface. It is recorded here because it is genuinely
+  served from a LinusBio-controlled domain and is genuinely callable by an agent today. It exposes commerce
+  only — no exposomics, laboratory, specimen or test-result data.
 deployment:
   mode: remote
   endpoint: https://traced.life/api/ucp/mcp
   auth: none
   verified: probed
-
 x-evidence:
   fetched: '2026-08-25'
   url: https://traced.life/api/ucp/mcp
@@ -42,7 +35,6 @@ x-evidence:
   response_bytes: 52007
   tools_returned: 13
   saved: mcp/linusbio-traced-mcp-tools-list.json
-
 protocol:
   transport: streamable-http
   ucp_version: '2026-04-08'
@@ -52,7 +44,6 @@ protocol:
   discovery: https://traced.life/.well-known/ucp
   agent_instructions: https://traced.life/agents.md
   input_schema_dialect: https://json-schema.org/draft/2020-12/schema
-
 tool_count: 13
 tools:
 - name: search_catalog
@@ -78,9 +69,8 @@ tools:
   description: Cancels a cart.
 - name: get_checkout
   category: checkout
-  description: >-
-    Returns details about the checkout, including line items, totals, and any applicable
-    discounts or taxes.
+  description: Returns details about the checkout, including line items, totals, and any applicable discounts
+    or taxes.
 - name: create_checkout
   category: checkout
   description: Creates a checkout.
@@ -89,8 +79,7 @@ tools:
   description: Updates a checkout.
 - name: complete_checkout
   category: checkout
-  description: >-
-    Completes a checkout and returns the checkout result, including order ID and Thank You
+  description: Completes a checkout and returns the checkout result, including order ID and Thank You
     Page URL. Accepts an optional meta.idempotency-key.
 - name: cancel_checkout
   category: checkout
@@ -98,25 +87,20 @@ tools:
 - name: get_order
   category: order
   description: Get the details of an order.
-
 runtime_rules:
   human_approval_required: true
-  human_approval_note: >-
-    Both agents.md and robots.txt state that agents must not complete payment without an
-    explicit, contemporaneous buyer approval step.
+  human_approval_note: Both agents.md and robots.txt state that agents must not complete payment without
+    an explicit, contemporaneous buyer approval step.
   idempotency:
     supported: true
     surface: complete_checkout
     parameter: meta.idempotency-key
     type: string
     description: An idempotency key for completing the checkout.
-  money_encoding: >-
-    All prices are integers in the currency's ISO 4217 minor units paired with a currency
+  money_encoding: All prices are integers in the currency's ISO 4217 minor units paired with a currency
     code; e.g. {"amount":2500,"currency":"USD"} is $25.00.
-  rate_limits: >-
-    robots.txt states the MCP endpoint is rate-limited per IP and that agents should back off
+  rate_limits: robots.txt states the MCP endpoint is rate-limited per IP and that agents should back off
     on 429. No numeric limit is published.
-
 authentication:
   anonymous_tools_list: true
   customer_account_oauth:
@@ -124,7 +108,46 @@ authentication:
     protected_resource: https://traced.life/.well-known/oauth-protected-resource
     scopes:
     - customer-account-mcp-api:full
-    note: >-
-      A separate, authenticated Shopify Customer Account MCP surface exists behind OAuth
-      (scope customer-account-mcp-api:full). It was NOT probed — it requires customer
-      credentials — so no tool list is recorded for it.
+    note: A separate, authenticated Shopify Customer Account MCP surface exists behind OAuth (scope customer-account-mcp-api:full).
+      It was NOT probed — it requires customer credentials — so no tool list is recorded for it.
+tool_quality:
+  tool_count: 13
+  tokens_total: 49354
+  tokens_per_tool_median: 2906
+  heavy_tools:
+  - name: complete_checkout
+    tokens: 7009
+  - name: create_checkout
+    tokens: 5572
+  - name: update_checkout
+    tokens: 5528
+  - name: get_checkout
+    tokens: 5285
+  - name: update_cart
+    tokens: 3784
+  heavy_tool_count: 13
+  params_total: 29
+  params_undescribed: 0
+  params_described_pct: 100.0
+  tools_with_undescribed_params: 0
+  tools_annotated: 0
+  annotated_pct: 0.0
+  state_changing_unhinted:
+  - create_checkout
+  - update_checkout
+  - cancel_checkout
+  - create_cart
+  - update_cart
+  - cancel_cart
+  tools_missing_schema: 0
+  short_descriptions: 0
+  duplicate_descriptions: 0
+  duplicate_names: 0
+  nonportable_names: []
+  output_schema_count: 13
+  token_estimate: chars/3.6 of each compact tool definition
+  source: mcp/linusbio-traced-mcp-tools-list.json
+  measured: '2026-10-20'
+  scored: false
+  note: Facts from the saved tools/list capture (mcp_tool_quality.py); recorded, not scored. Checks learned
+    from Glimind's agent-readiness audit.
